@@ -1,0 +1,24 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); //Configura os pinos do Arduino para se comunicar com o LCD
+
+int tempo;
+
+void setup()
+{
+  lcd.begin(16, 2);
+  lcd.setCursor(0, 0);
+  lcd.print("Carranca 22!");
+  lcd.setCursor(0, 1);
+  lcd.print("Pensa Rapido:");
+  
+}
+
+void loop()
+{
+  lcd.setCursor(13, 1);
+  lcd.print(tempo);
+  delay(500);
+  tempo++;
+
+}
