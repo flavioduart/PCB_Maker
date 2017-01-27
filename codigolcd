@@ -4,6 +4,7 @@ int botao = 6;
 int estadoBotao = 0;
 
 void modoautomatico();
+void displaylcd();
 /*void modomanual();
 void configuracoes();
 void ajuda();*/
@@ -68,21 +69,66 @@ void modoautomatico()
   lcd.print("->Pinte a placa");
     if (estadoBotao == HIGH);
   lcd.clear();
-  lcd.setCursor(0, 1);
+  lcd.setCursor(0, 0);
   lcd.print("->Agora vamos usar a");
-  lcd.setCursor(5, 2);
+  lcd.setCursor(5, 1);
   lcd.print("->Centriuga");
   //centrifuga();
+  lcd.clear();
+  lcd.print("->Vamos usar a secagem");
+  //secagem();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("->Colocar o fotolito");
+  lcd.setCursor(0, 1);
+  lcd.print("->Usar a luz ultravioleta");
+  //luzvioleta();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("->Usar a barrilha");
+  lcd.setCursor(0, 1);
+  lcd.print("->Retirar a tinta");
+  lcd.setCursor(0, 2);
+  lcd.print("->Novamente usar a luz violeta");
+  lcd.setCursor(0, 3);
+  lcd.print("->Usar o hipercloreto");
+  // corrosao();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("->Lavar a placa");
+  lcd.setCursor(0, 1);
+  lcd.print("->Usar soda caustica");
+  lcd.setCursor(0, 2);
+  lcd.print("->Cortar e lixar placa");
+  lcd.setCursor(0, 3);
+  lcd.print("->Trabalhar as legendas");
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("->Agora, repetir as etapas de:");
+  lcd.setCursor(0, 1);
+  lcd.print("->Limpar, Pintar, Centrifugar, Secar");
+  lcd.setCursor(0, 2);
+  lcd.print("->Colocar a mascara");
+  lcd.setCursor(0, 3);
+  lcd.print("->Utilizar barrilha");
+  lcd.clear();
+  lcd.setCursor(5, 1);
+  lcd.print("Processo Finalizado");
+  
   
 }
 /*void modomanual()
 void configuracoes()
 void ajuda()*/
 
-void centrifuga
+void centrifuga()
 {
   lcd.clear();
   lcd.setCursor(7, 0);
   lcd.print("Centrifugando...");
   // lcd.print(""); mostrar tempo
 }
+
+//void secagem()
+//void luizvioleta()
+//void corrosao()
