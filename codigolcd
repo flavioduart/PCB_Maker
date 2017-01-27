@@ -1,24 +1,88 @@
 #include <LiquidCrystal.h>
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2); //Configura os pinos do Arduino para se comunicar com o LCD
+int botao = 6;
+int estadoBotao = 0;
 
-int tempo;
+void modoautomatico();
+/*void modomanual();
+void configuracoes();
+void ajuda();*/
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup()
 {
-  lcd.begin(16, 2);
-  lcd.setCursor(0, 0);
-  lcd.print("Carranca 22!");
-  lcd.setCursor(0, 1);
-  lcd.print("Pensa Rapido:");
-  
+  pinMode(botao,INPUT);
+  lcd.begin(20, 4);
 }
 
 void loop()
-{
-  lcd.setCursor(13, 1);
-  lcd.print(tempo);
-  delay(500);
-  tempo++;
+{ 
+  displaylcd();
+  estadoBotao = digitalRead(botao);
+}
 
+void displaylcd()
+{
+  lcd.clear();
+  lcd.cursor();
+  lcd.blink();
+  lcd.setCursor(0, 0);
+  lcd.print("->Modo Automatico");
+  delay(3000);
+  if (estadoBotao == HIGH) 
+    modoautomatico();
+  lcd.setCursor(0, 1);
+  lcd.print("->Modo Manual");
+  delay(3000);
+  if (estadoBotao == HIGH);
+   // modomanual();
+  lcd.setCursor(0, 2);
+  lcd.print("->Configurações");
+  delay(3000);
+  if (estadoBotao == HIGH);
+   // configuracoes();
+  lcd.setCursor(0, 3);
+  lcd.print("->Ajuda");
+  delay(3000);
+  if (estadoBotao == HIGH);
+   // ajuda();
+}
+
+void modoautomatico()
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Incializando...");
+  lcd.clear();
+  lcd.cursor();
+  lcd.setCursor(0, 0);
+  lcd.print("->Lave a placa");
+  lcd.setCursor(0, 1);
+  lcd.print("->com bombril");
+    if (estadoBotao == HIGH);
+  lcd.setCursor(0, 2);
+  lcd.print("->Seque a placa");
+    if (estadoBotao == HIGH);
+  lcd.setCursor(0, 3);
+  lcd.print("->Pinte a placa");
+    if (estadoBotao == HIGH);
+  lcd.clear();
+  lcd.setCursor(0, 1);
+  lcd.print("->Agora vamos usar a");
+  lcd.setCursor(5, 2);
+  lcd.print("->Centriuga");
+  //centrifuga();
+  
+}
+/*void modomanual()
+void configuracoes()
+void ajuda()*/
+
+void centrifuga
+{
+  lcd.clear();
+  lcd.setCursor(7, 0);
+  lcd.print("Centrifugando...");
+  // lcd.print(""); mostrar tempo
 }
