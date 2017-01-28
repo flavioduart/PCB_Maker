@@ -2,12 +2,14 @@
 
 int botao = 6;
 int estadoBotao = 0;
+int contador = 0;
+int contadorluz = 0;
 
 void modoautomatico();
 void displaylcd();
-/*void modomanual();
+void modomanual();
 void configuracoes();
-void ajuda();*/
+void ajuda();
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
@@ -31,23 +33,23 @@ void displaylcd()
   lcd.setCursor(0, 0);
   lcd.print("->Modo Automatico");
   delay(3000);
-  if (estadoBotao == HIGH) 
-    modoautomatico();
+    if (estadoBotao == HIGH) 
+      modoautomatico();
   lcd.setCursor(0, 1);
   lcd.print("->Modo Manual");
   delay(3000);
-  if (estadoBotao == HIGH);
-   // modomanual();
+    if (estadoBotao == HIGH);
+      modomanual();
   lcd.setCursor(0, 2);
   lcd.print("->Configurações");
   delay(3000);
-  if (estadoBotao == HIGH);
-   // configuracoes();
+    if (estadoBotao == HIGH);
+      configuracoes();
   lcd.setCursor(0, 3);
   lcd.print("->Ajuda");
   delay(3000);
-  if (estadoBotao == HIGH);
-   // ajuda();
+    if (estadoBotao == HIGH);
+    // ajuda();
 }
 
 void modoautomatico()
@@ -73,7 +75,7 @@ void modoautomatico()
   lcd.print("->Agora vamos usar a");
   lcd.setCursor(5, 1);
   lcd.print("->Centriuga");
-  //centrifuga();
+    centrifuga();
   lcd.clear();
   lcd.print("->Vamos usar a secagem");
   //secagem();
@@ -117,18 +119,65 @@ void modoautomatico()
   
   
 }
-/*void modomanual()
+void modomanual()
+{
+  lcd.clear();
+  lcd.cursor();
+  lcd.blink();
+  lcd.setCursor(0, 0);
+  lcd.print("Qual processo");
+  lcd.setCursor(0, 1);
+  lcd.print("deseja ativar?");
+  lcd.setCursor(0, 3);
+  lcd.print("Centrifuga?");
+    if (estadoBotao == HIGH);
+      centriguga();
+  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Secagem?");
+    if (estadoBotao == HIGH);
+      //secagem();
+  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Luz Ultravioleta?");
+    if (estadoBotao == HIGH);
+      //luzvioleta();
+  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Corrosao?");
+  if (estadoBotao == HIGH);
+    //corrosao(); 
+}
+
 void configuracoes()
-void ajuda()*/
+{
+  
+}
+
+void ajuda()
+{
+  
+}
 
 void centrifuga()
 {
   lcd.clear();
   lcd.setCursor(7, 0);
   lcd.print("Centrifugando...");
-  // lcd.print(""); mostrar tempo
+  delay(2000);
+  lcd.setCursor(10, 0);
+  for(contador; contador < 30; contador++)
+  {
+    lcd.print("contador");
+    delay(1000); 
+    lcd.clear();
+  }
 }
 
 //void secagem()
 //void luizvioleta()
 //void corrosao()
+
