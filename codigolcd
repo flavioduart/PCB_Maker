@@ -6,6 +6,7 @@ int contador = 0;
 int contadorluz = 0;
 int contador3 = 0;
 int contador4 = 0;
+int buzzer = 1;
 
 void modoautomatico();
 void displaylcd();
@@ -177,6 +178,9 @@ void centrifuga()
     delay(1000); 
     lcd.clear();
   }
+  tone(buzzer, 261);
+    if (estadoBotao == HIGH);
+      noTone(buzzer); 
 }
 
 void secagem()
@@ -198,7 +202,8 @@ void secagem()
     delay(1000); 
     lcd.clear();
   }
-    
+    if (estadoBotao == HIGH);
+      noTone(buzzer);
 }
 
 void luzvioleta()
@@ -214,6 +219,8 @@ void luzvioleta()
     delay(1000); 
     lcd.clear();
   }
+  if (estadoBotao == HIGH);
+      noTone(buzzer);
 }
 
 void corrosao()
@@ -235,4 +242,6 @@ void corrosao()
     delay(1000); 
     lcd.clear();
   }
+  if (estadoBotao == HIGH);
+      noTone(buzzer);
 }
