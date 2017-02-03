@@ -2,8 +2,8 @@
 
 int botao = 6;
 int botao2 = 10;
-int botao3 = 9;
-int botao4 = 8;
+int botao3 = 13;
+int botao4 = 7;
 int estadoBotao = 0;
 int contador = 0;
 int buzzer = 1;
