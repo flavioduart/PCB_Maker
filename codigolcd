@@ -2,14 +2,14 @@
 
 int botao = 6;
 int botao2 = 10;
-int botao3 = 13;
-int botao4 = 7;
+int botao3 = 9;
+int botao4 = 8;
 int estadoBotao = 0;
 int contador = 0;
 int buzzer = 1;
 
 unsigned long timeLV = 16;
-unsigned long timeCent = 16;
+unsigned long timeCent = 31;
 unsigned long timeSecagem = 31;
 unsigned long timeCorrosao = 31;
 
@@ -43,28 +43,40 @@ void displaylcd()
   lcd.blink();
   lcd.setCursor(0, 0);
   lcd.print("->Modo Automatico");
+  lcd.setCursor(0, 1);
+  lcd.print("Aperte botao 1");
   delay(3000);
   estadoBotao = digitalRead(botao);
     if (estadoBotao == HIGH) 
       modoautomatico();
-  lcd.setCursor(0, 1);
+  lcd.clear();
+  lcd.setCursor(0, 0);
   lcd.print("->Modo Manual");
+  lcd.setCursor(0, 1);
+  lcd.print("Aperte botao 2");
   delay(3000);
-  estadoBotao = digitalRead(botao);
+  estadoBotao = digitalRead(botao2);
     if (estadoBotao == HIGH)
       modomanual();
-  lcd.setCursor(0, 2);
-  lcd.print("->Configurações");
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("->Configuracoes");
+  lcd.setCursor(0, 1);
+  lcd.print("Aperte botao 3");
   delay(3000);
-  estadoBotao = digitalRead(botao);
+  estadoBotao = digitalRead(botao3);
     if (estadoBotao == HIGH)
       configuracoes();
-  lcd.setCursor(0, 3);
+  lcd.clear();
+  lcd.setCursor(0, 0);
   lcd.print("->Ajuda");
+  lcd.setCursor(0, 1);
+  lcd.print("Aperte botao 4");
   delay(3000);
-  estadoBotao = digitalRead(botao);
+  estadoBotao = digitalRead(botao4);
     if (estadoBotao == HIGH)
       ajuda();
+  delay(4000);
 }
 
 void modoautomatico()
@@ -94,49 +106,67 @@ void modoautomatico()
               lcd.clear();
               lcd.setCursor(0, 0);
               lcd.print("->Agora vamos usar a");
+              delay(2000);
               lcd.setCursor(5, 1);
-              lcd.print("->Centriuga");
+              lcd.print("->Centrifuga");
+              delay(3000);
                 centrifuga();
               lcd.clear();
               lcd.print("->Vamos usar a secagem");
+              delay(3000);
                 secagem();
               lcd.clear();
               lcd.setCursor(0, 0);
               lcd.print("->Colocar o fotolito");
+              delay(2000);
               lcd.setCursor(0, 1);
               lcd.print("->Usar a luz ultravioleta");
+              delay(3000);
                 luzvioleta();
               lcd.clear();
               lcd.setCursor(0, 0);
               lcd.print("->Usar a barrilha");
+              delay(2000);
               lcd.setCursor(0, 1);
               lcd.print("->Retirar a tinta");
+              delay(2000);
               lcd.setCursor(0, 2);
               lcd.print("->Novamente usar a luz violeta");
+              delay(2000);
               lcd.setCursor(0, 3);
               lcd.print("->Usar o hipercloreto");
+              delay(3000);
                 corrosao();
               lcd.clear();
               lcd.setCursor(0, 0);
               lcd.print("->Lavar a placa");
+              delay(2000);
               lcd.setCursor(0, 1);
               lcd.print("->Usar soda caustica");
+              delay(2000);
               lcd.setCursor(0, 2);
               lcd.print("->Cortar e lixar placa");
+              delay(2000);
               lcd.setCursor(0, 3);
               lcd.print("->Trabalhar as legendas");
+              delay(2000);
               lcd.clear();
               lcd.setCursor(0, 0);
               lcd.print("->Agora, repetir as etapas de:");
+              delay(2000);
               lcd.setCursor(0, 1);
               lcd.print("->Limpar, Pintar, Centrifugar, Secar");
+              delay(2000);
               lcd.setCursor(0, 2);
               lcd.print("->Colocar a mascara");
+              delay(2000);
               lcd.setCursor(0, 3);
               lcd.print("->Utilizar barrilha");
+              delay(2000);
               lcd.clear();
               lcd.setCursor(5, 1);
               lcd.print("Processo Finalizado");
+              delay(3000);
             }
         }
     }
@@ -151,109 +181,120 @@ void modomanual()
   lcd.print("Qual processo");
   lcd.setCursor(0, 1);
   lcd.print("deseja ativar?");
-  lcd.setCursor(0, 3);
+  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
   lcd.print("->Centrifuga?");
+  lcd.setCursor(0, 1);
   lcd.print("Aperte o botao 1");
   delay(2000);
   estadoBotao = digitalRead(botao);
     if (estadoBotao == HIGH)
-      centrifuga();
-  delay(3000);
-  lcd.clear();
-  lcd.setCursor(0, 1);
-  lcd.print("Deseja ativar");
-  lcd.setCursor(0, 2);
-  lcd.print("outro processo?");
-  lcd.setCursor(0, 3);
-  lcd.print("SIM-aperte o botao 1");
-  delay(2000);
-  estadoBotao = digitalRead(botao);
-    if (estadoBotao == HIGH)
-    {
-      modomanual(); 
+    {      
+       centrifuga();
+       delay(2000);
+       lcd.clear();
+       lcd.setCursor(0, 1);
+       lcd.print("Deseja ativar");
+       lcd.setCursor(0, 2);
+       lcd.print("outro processo?");
+       lcd.setCursor(0, 3);
+       lcd.print("SIM-aperte o botao 1");
+       delay(2000);
+       estadoBotao = digitalRead(botao);
+         if (estadoBotao == HIGH)
+         {
+           modomanual(); 
+         }
+         else
+         {
+           displaylcd();
+         }
     }
-    else
-    {
-      displaylcd();
-    }
+  lcd.setCursor(0, 2);  
   lcd.print("->Secagem?");
-  lcd.setCursor(0, 2);
+  lcd.setCursor(0, 3);
   lcd.print("Aperte o botao 2");
   delay(2000);
   estadoBotao = digitalRead(botao2);
     if (estadoBotao == HIGH)
+    {
       secagem();
-  delay(3000);
-  lcd.clear();
-  lcd.setCursor(0, 1);
-  lcd.print("Deseja ativar");
-  lcd.setCursor(0, 2);
-  lcd.print("outro processo?");
-  lcd.setCursor(0, 3);
-  lcd.print("SIM-aperte o botao 2");
-  delay(2000);
-  estadoBotao = digitalRead(botao2);
-    if (estadoBotao == HIGH)
-    {
-      modomanual(); 
+      delay(3000);
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("Deseja ativar");
+      lcd.setCursor(0, 2);
+      lcd.print("outro processo?");
+      lcd.setCursor(0, 3);
+      lcd.print("SIM-aperte o botao 2");
+      delay(2000);
+      estadoBotao = digitalRead(botao2);
+        if (estadoBotao == HIGH)
+        {
+          modomanual(); 
+        }
+        else
+        {
+          displaylcd();
+        }
     }
-    else
-    {
-      displaylcd();
-    }
   lcd.clear();
-  lcd.setCursor(0, 1);
+  lcd.setCursor(0, 0);
   lcd.print("->Luz Ultravioleta?");
-  lcd.setCursor(0, 2);
+  lcd.setCursor(0, 1);
   lcd.print("Aperte o botao 3");
   delay(2000);
   estadoBotao = digitalRead(botao3);
     if (estadoBotao == HIGH)
+    {
       luzvioleta();
-  delay(3000);
-  lcd.clear();
-  lcd.setCursor(0, 1);
-  lcd.print("Deseja ativar");
+      delay(3000);
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("Deseja ativar");
+      lcd.setCursor(0, 2);
+      lcd.print("outro processo?");
+      lcd.setCursor(0, 3);
+      lcd.print("SIM-aperte o botao 3");
+      delay(2000);
+      estadoBotao = digitalRead(botao3);
+        if (estadoBotao == HIGH)
+        {
+          modomanual(); 
+        }
+        else
+        {
+          displaylcd();
+        }
+    }
   lcd.setCursor(0, 2);
-  lcd.print("outro processo?");
-  lcd.setCursor(0, 3);
-  lcd.print("SIM-aperte o botao 3");
-  delay(2000);
-  estadoBotao = digitalRead(botao3);
-    if (estadoBotao == HIGH)
-    {
-      modomanual(); 
-    }
-    else
-    {
-      displaylcd();
-    }
-  lcd.clear();
-  lcd.setCursor(0, 1);
   lcd.print("->Corrosao?");
-  lcd.setCursor(0, 2);
+  lcd.setCursor(0, 3);
   lcd.print("Aperte o botao 4");
   delay(2000);
   estadoBotao = digitalRead(botao4);
     if (estadoBotao == HIGH)
+    {
       corrosao();
-  delay(3000);
-  lcd.clear();
-  lcd.setCursor(0, 1);
-  lcd.print("Deseja ativar");
-  lcd.setCursor(0, 2);
-  lcd.print("outro processo?");
-  lcd.setCursor(0, 3);
-  lcd.print("SIM-aperte o botao 1");
-  delay(2000);
-  estadoBotao = digitalRead(botao);
-    if (estadoBotao == HIGH)
-    {
-      modomanual(); 
-    }
-    else
-    {
-      displaylcd();
+      delay(3000);
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("Deseja ativar");
+      lcd.setCursor(0, 2);
+      lcd.print("outro processo?");
+      lcd.setCursor(0, 3);
+      lcd.print("SIM-aperte o botao 1");
+      delay(2000);
+      estadoBotao = digitalRead(botao);
+        if (estadoBotao == HIGH)
+        {
+          modomanual(); 
+        }
+        else
+        {
+          displaylcd();
+        }
     }
   lcd.clear(); 
 }
@@ -280,10 +321,11 @@ void centrifuga()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 1000 && contador < timeCent; contador++)
   {
+    lcd.print("Centrigugando...");
     lcd.print(contador);
     delay(1000); 
-    lcd.clear();
     tempo = 0;
+    lcd.clear();
   }
   do{
     tone(buzzer, 261);
@@ -310,6 +352,7 @@ void secagem()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 60000 && contador < timeSecagem; contador++)
   {
+    lcd.print("Secando...");
     lcd.print(contador);
     delay(1000); 
     lcd.clear();
@@ -332,6 +375,7 @@ void luzvioleta()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 60000 && contador < timeLV; contador++)
   {
+    lcd.print("Luz UV...");
     lcd.print(contador);
     delay(1000); 
     lcd.clear();
@@ -361,6 +405,7 @@ void corrosao()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 60000 && contador < timeCorrosao; contador++)
   {
+    lcd.print("Corroendo");
     lcd.print(contador);
     delay(1000); 
     lcd.clear();
