@@ -8,6 +8,9 @@ int estadoBotao;
 int contador = 0;
 int buzzer = 1;
 
+#define enable 8 // tem que ser pwm
+#define input 9 
+
 unsigned long timeLV = 16;
 unsigned long timeCent = 31;
 unsigned long timeSecagem = 31;
@@ -111,13 +114,13 @@ void modoautomatico()
   delay(5000);
   lcd.clear();
   lcd.cursor();
-  lcd.setCursor(0.0);
+  lcd.setCursor(0, 0);
   lcd.print("-> Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao");
   do{
     estadoBotao = digitalRead(botao);
-  }while(estadobotao != HIGH);
+  }while(estadoBotao != HIGH);
   lcd.clear();
   lcd.cursor();
   lcd.setCursor(0, 0);
@@ -125,13 +128,13 @@ void modoautomatico()
   delay(5000);
   lcd.clear();
   lcd.cursor();
-  lcd.setCursor(0.0);
+  lcd.setCursor(0, 0);
   lcd.print("-> Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao");
   do{
     estadoBotao = digitalRead(botao);
-  }while(estadobotao != HIGH);
+  }while(estadoBotao != HIGH);
   lcd.clear();
   lcd.cursor();
   lcd.setCursor(0, 0);
@@ -139,13 +142,13 @@ void modoautomatico()
   delay(5000);
   lcd.clear();
   lcd.cursor();
-  lcd.setCursor(0.0);
+  lcd.setCursor(0, 0);
   lcd.print("-> Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao");
   do{
     estadoBotao = digitalRead(botao);
-  }while(estadobotao != HIGH);
+  }while(estadoBotao != HIGH);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("->Agora vamos usar a");
@@ -161,13 +164,13 @@ void modoautomatico()
   delay(5000);
   lcd.clear();
   lcd.cursor();
-  lcd.setCursor(0.0);
+  lcd.setCursor(0, 0);
   lcd.print("-> Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao");
   do{
     estadoBotao = digitalRead(botao);
-  }while(estadobotao != HIGH);
+  }while(estadoBotao != HIGH);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("->Usar a luz ultravioleta");
@@ -178,13 +181,13 @@ void modoautomatico()
   delay(5000);
   lcd.clear();
   lcd.cursor();
-  lcd.setCursor(0.0);
+  lcd.setCursor(0, 0);
   lcd.print("-> Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao");
   do{
     estadoBotao = digitalRead(botao);
-  }while(estadobotao != HIGH);
+  }while(estadoBotao != HIGH);
   lcd.clear();
   lcd.cursor();
   lcd.setCursor(0, 0);
@@ -192,13 +195,13 @@ void modoautomatico()
   delay(5000);
   lcd.clear();
   lcd.cursor();
-  lcd.setCursor(0.0);
+  lcd.setCursor(0, 0);
   lcd.print("-> Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao");
   do{
     estadoBotao = digitalRead(botao);
-  }while(estadobotao != HIGH);
+  }while(estadoBotao != HIGH);
   lcd.clear();
   lcd.cursor();
   lcd.setCursor(0, 0);
@@ -238,9 +241,6 @@ void modoautomatico()
   lcd.clear();
   lcd.setCursor(5, 1);
   lcd.print("Processo Finalizado");
-            }
-        }
-    }
 }
 
 void modomanual()
@@ -392,8 +392,10 @@ void centrifuga()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 1000 && contador < timeCent; contador++)
   {
-    lcd.print("Centrigugando...");
+    lcd.print("Centrifugando...");
     lcd.print(contador);
+    digitalWrite(enable, HIGH);
+    digitalWrite(input, HIGH);
     delay(1000); 
     tempo = 0;
     lcd.clear();
@@ -423,6 +425,7 @@ void secagem()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 60000 && contador < timeSecagem; contador++)
   {
+    lcd.print("Secando...");
     lcd.print(contador);
     delay(1000); 
     lcd.clear();
@@ -445,6 +448,7 @@ void luzvioleta()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 60000 && contador < timeLV; contador++)
   {
+    lcd.print("Luz UV...");
     lcd.print(contador);
     delay(1000); 
     lcd.clear();
@@ -474,6 +478,7 @@ void corrosao()
   lcd.setCursor(10, 1);
   for(tempo; tempo < 60000 && contador < timeCorrosao; contador++)
   {
+    lcd.print("Corroendo...");
     lcd.print(contador);
     delay(1000); 
     lcd.clear();
