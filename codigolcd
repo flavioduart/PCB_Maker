@@ -12,10 +12,14 @@ int dataPin = 6;  //Pino conectado ao pino 6 do 74HC595 (Data).
 int clockPin = 13; //Pino conectado ao pino 13 do 74HC595 (Clock).
 
 #define MotorPin 9
+#define timeCent 11
+#define timeSecagem 11
 #define timeLV 16
-#define timeCent 31
-#define timeSecagem 31
-#define timeCorrosao 31
+#define timeCorrosao 11
+#define tempo_Centrifuga 11000
+#define tempo_Secagem	11000
+#define tempo_LV		16000
+#define tempo_Corrosao 	11000
 
 void modoautomatico();
 void displaylcd();
@@ -407,7 +411,7 @@ void centrifuga()
   lcd.clear();
   digitalWrite(MotorPin, HIGH);
   tempo = millis();
-  for (contador; (millis() - tempo < 31000) && (contador < timeCent); contador++)
+  for (contador; (millis() - tempo < tempo_Centrifuga) && (contador < timeCent); contador++)
   {
     lcd.print("Centrifugando");
     lcd.print(contador);
@@ -424,6 +428,8 @@ void centrifuga()
 
 void secagem()
 {
+  //15 minutos quente
+  //2 minutos frio (opcional)
   unsigned long tempo = 0;
   int contador = 0;
 
@@ -444,13 +450,14 @@ void secagem()
   lcd.setCursor(10, 1);
   tempo = millis();
   digitalWrite(releSecador, HIGH);
-  for (tempo; tempo < 60000 && contador < timeSecagem; contador++)
+  tempo = millis();
+  for (contador; millis() - tempo < tempo_Secagem && contador < timeSecagem; contador++)
   {
     lcd.print("Secando...");
     lcd.print(contador);
     delay(1000);
     lcd.clear();
-    tempo = 0;
+    tempo = millis();
   }
   digitalWrite(releSecador, LOW);
   do {
@@ -461,6 +468,7 @@ void secagem()
 
 void luzvioleta()
 {
+  //3 minutos
   unsigned long tempo = 0;
   int contador = 0;
 
@@ -472,13 +480,13 @@ void luzvioleta()
   lcd.setCursor(10, 1);
   tempo = millis();
   digitalWrite(releuv, HIGH);
-  for (tempo; tempo < 60000 && contador < timeLV; contador++)
+  for (contador; millis() - tempo < tempo_LV && contador < timeLV; contador++)
   {
     lcd.print("Luz UV...");
     lcd.print(contador);
     delay(1000);
     lcd.clear();
-    tempo = 0;
+    tempo = millis();
   }
   digitalWrite(releuv, LOW);
   do {
@@ -489,6 +497,7 @@ void luzvioleta()
 
 void corrosao()
 {
+  //15 a 20 minutos
   unsigned long tempo = 0;
   int contador = 0;
 
@@ -507,13 +516,13 @@ void corrosao()
   lcd.setCursor(10, 1);
   tempo = millis();
   digitalWrite(releSecador, HIGH);
-  for (tempo; tempo < 60000 && contador < timeCorrosao; contador++)
+  for (contador; tempo < tempo_Corrosao && contador < timeCorrosao; contador++)
   {
     lcd.print("Corroendo...");
     lcd.print(contador);
     delay(1000);
     lcd.clear();
-    tempo = 0;
+    tempo = millis();
   }
   digitalWrite(releSecador, LOW);
   do {
@@ -521,3 +530,4 @@ void corrosao()
   } while (estadoBotao != HIGH);
   noTone(buzzer);
 }
+
