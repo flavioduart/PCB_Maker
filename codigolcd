@@ -1,17 +1,17 @@
 //#include <Keyboard.h>
 #include <LiquidCrystal.h>
 
-int botao = 7;
+int botao = 6;
 int estadoBotao;
 int contador = 0;
 int buzzer = 1;
 int releuv = 11;
-int releSecador = 11; //Tem que colocar uma noca porta
-int latchPin = 10;  //Pino conectado ao pino 10 do 74HC595 (Latch).
-int dataPin = 6;  //Pino conectado ao pino 6 do 74HC595 (Data).
-int clockPin = 13; //Pino conectado ao pino 13 do 74HC595 (Clock).
+int releSecador = 11; //Tem que colocar uma nova porta
+int latchPin = 9;  //Pino conectado ao pino 10 do 74HC595 (Latch).
+int dataPin = 7;  //Pino conectado ao pino 6 do 74HC595 (Data).
+int clockPin = 8; //Pino conectado ao pino 13 do 74HC595 (Clock).
 
-#define MotorPin 9
+#define MotorPin 10
 #define timeCent 11
 #define timeSecagem 11
 #define timeLV 16
@@ -31,7 +31,7 @@ void secagem();
 void luzvioleta();
 void corrosao();
 
-LiquidCrystal lcd(12, 8, 5, 4, 3, 2);
+LiquidCrystal lcd(13, 12, 5, 4, 3, 2);
 
 void setup()
 {
