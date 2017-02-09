@@ -1,14 +1,17 @@
+#include <Keyboard.h>
 #include <LiquidCrystal.h>
 
-int botao = 6;
+int botao = 7;
 int estadoBotao;
 int contador = 0;
 int buzzer = 1;
-int releuv = 8;
+int releuv = 11;
+int releSecador = 11; //Tem que colocar uma noca porta
+int latchPin = 10;  //Pino conectado ao pino 10 do 74HC595 (Latch).
+int dataPin = 6;  //Pino conectado ao pino 6 do 74HC595 (Data).
+int clockPin = 13; //Pino conectado ao pino 13 do 74HC595 (Clock).
 
-#define enable 8 // tem que ser pwm
-#define input 9
-
+#define MotorPin 9
 #define timeLV 16
 #define timeCent 31000
 #define timeSecagem 31
@@ -24,12 +27,17 @@ void secagem();
 void luzvioleta();
 void corrosao();
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(12, 8, 5, 4, 3, 2);
 
 void setup()
 {
   pinMode(botao, INPUT);
+  pinMode(MotorPin, OUTPUT);
+  pinMode(latchPin,OUTPUT);
+  pinMode(dataPin,OUTPUT);
+  pinMode(clockPin,OUTPUT);
   pinMode(releuv, OUTPUT);
+  pinMode(releSecador, OUTPUT);
   lcd.begin(20, 4);
   Serial.begin(9600);
 }
@@ -390,20 +398,24 @@ void centrifuga()
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Centrifugando...");
-  delay(3000);
-  lcd.setCursor(0, 1);
-  digitalWrite(enable, HIGH);
-  digitalWrite(input, HIGH);
-  for (tempo; tempo < 1000 && contador < timeCent; contador++)
+  delay(2000);
+  lcd.clear();
+  lcd.print("Pressione para iniciar");
+  do {
+    estadoBotao = digitalRead(botao);
+  } while (estadoBotao != HIGH);
+  lcd.clear();
+  digitalWrite(MotorPin, HIGH);
+  for (tempo; /*tempo < 1000 &&*/ contador < timeCent; contador++)
   {
-    lcd.print("Centrifugando...");
+    //digitalWrite(MotorPin, HIGH);
+    lcd.print("Centrifugando");
     lcd.print(contador);
     delay(1000);
     lcd.clear();
     tempo = millis();
   }
-  digitalWrite(enable, LOW);
-  digitalWrite(input, LOW);
+  digitalWrite(MotorPin, LOW);
   do {
     tone(buzzer, 261);
   } while (estadoBotao != HIGH);
@@ -431,6 +443,7 @@ void secagem()
   lcd.clear();
   lcd.setCursor(10, 1);
   tempo = millis();
+  digitalWrite(releSecador, HIGH);
   for (tempo; tempo < 60000 && contador < timeSecagem; contador++)
   {
     lcd.print("Secando...");
@@ -439,6 +452,7 @@ void secagem()
     lcd.clear();
     tempo = 0;
   }
+  digitalWrite(releSecador, LOW);
   do {
     tone(buzzer, 261);
   } while (estadoBotao != HIGH);
@@ -492,6 +506,7 @@ void corrosao()
   lcd.print("Corroendo");
   lcd.setCursor(10, 1);
   tempo = millis();
+  digitalWrite(releSecador, HIGH);
   for (tempo; tempo < 60000 && contador < timeCorrosao; contador++)
   {
     lcd.print("Corroendo...");
@@ -500,6 +515,7 @@ void corrosao()
     lcd.clear();
     tempo = 0;
   }
+  digitalWrite(releSecador, LOW);
   do {
     tone(buzzer, 261);
   } while (estadoBotao != HIGH);
