@@ -1,4 +1,4 @@
-#include <Keyboard.h>
+//#include <Keyboard.h>
 #include <LiquidCrystal.h>
 
 int botao = 7;
@@ -13,7 +13,7 @@ int clockPin = 13; //Pino conectado ao pino 13 do 74HC595 (Clock).
 
 #define MotorPin 9
 #define timeLV 16
-#define timeCent 31000
+#define timeCent 31
 #define timeSecagem 31
 #define timeCorrosao 31
 
@@ -63,7 +63,7 @@ void displaylcd()
     if (estadoBotao == HIGH) {
       modoautomatico();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("->Modo Manual");
@@ -75,7 +75,7 @@ void displaylcd()
     if (estadoBotao == HIGH) {
       modomanual();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("->Configuracoes");
@@ -87,7 +87,7 @@ void displaylcd()
     if (estadoBotao == HIGH) {
       configuracoes();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("->Ajuda");
@@ -99,7 +99,7 @@ void displaylcd()
     if (estadoBotao == HIGH) {
       ajuda();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
 }
 
 void modoautomatico()
@@ -293,10 +293,10 @@ void modomanual()
         estadoBotao = digitalRead(botao);
         if (estadoBotao == HIGH)
           modomanual();
-      } while (time < 3001);
+      } while (millis() - time < 3001);
       displaylcd();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.setCursor(0, 2);
   lcd.print("->Secagem?");
   lcd.setCursor(0, 3);
@@ -319,10 +319,10 @@ void modomanual()
         estadoBotao = digitalRead(botao);
         if (estadoBotao == HIGH)
           modomanual();
-      } while (time < 3001);
+      } while (millis() - time < 3001);
       displaylcd();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("->Luz Ultravioleta?");
@@ -347,10 +347,10 @@ void modomanual()
         estadoBotao = digitalRead(botao);
         if (estadoBotao == HIGH)
           modomanual();
-      } while (time < 3001);
+      } while (millis() - time < 3001);
       displaylcd();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.setCursor(0, 2);
   lcd.print("->Corrosao?");
   lcd.setCursor(0, 3);
@@ -374,10 +374,10 @@ void modomanual()
         estadoBotao = digitalRead(botao);
         if (estadoBotao == HIGH)
           modomanual();
-      } while (time < 3001);
+      } while (millis() - time < 3001);
       displaylcd();
     }
-  } while (time < 3001);
+  } while (millis() - time < 3001);
   lcd.clear();
 }
 
@@ -406,9 +406,9 @@ void centrifuga()
   } while (estadoBotao != HIGH);
   lcd.clear();
   digitalWrite(MotorPin, HIGH);
-  for (tempo; /*tempo < 1000 &&*/ contador < timeCent; contador++)
+  tempo = millis();
+  for (contador; (millis() - tempo < 31000) && (contador < timeCent); contador++)
   {
-    //digitalWrite(MotorPin, HIGH);
     lcd.print("Centrifugando");
     lcd.print(contador);
     delay(1000);
