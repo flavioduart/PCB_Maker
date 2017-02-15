@@ -1,4 +1,4 @@
-//#include <Keyboard.h>
+#include <Keypad.h>
 #include <LiquidCrystal.h>
 
 int botao = 6;
