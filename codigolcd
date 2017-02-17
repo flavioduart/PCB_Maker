@@ -13,7 +13,7 @@ char keys[ROWS][COLS] = {
 // Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
 byte rowPins[ROWS] = {A5, A4, A3, A2};
 // Connect keypad COL0, COL1 and COL2 to these Arduino pins.
-byte colPins[COLS] = {3, 4, 5}; 
+byte colPins[COLS] = {2, 4, 5}; 
 
 // Create the Keypad
 Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
@@ -33,7 +33,7 @@ int tempo_Corrosao = 11000;
 
 char key;
 
-#define MotorPin 2
+#define MotorPin 3
 
 void modoautomatico();
 void displaylcd();
