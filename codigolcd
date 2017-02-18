@@ -11,17 +11,17 @@ char keys[ROWS][COLS] = {
   {'*','0','#'}
 };
 // Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
-byte rowPins[ROWS] = {A5, A4, A3, A2};
+byte rowPins[ROWS] = {A0, A1, A2, A3};
 // Connect keypad COL0, COL1 and COL2 to these Arduino pins.
-byte colPins[COLS] = {2, 4, 5}; 
+byte colPins[COLS] = {6, 7, 8, /*9*/}; 
 
 // Create the Keypad
 Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 int contador = 0;
-int buzzer = 1;
-int releuv = 2;
-int releSecador = 6; 
+int buzzer = 13;
+int releuv = 0;
+int releSecador = 1; 
 int timeCent = 11;
 int timeSecagem = 11;
 int timeLV = 16;
@@ -30,10 +30,9 @@ int tempo_Centrifuga = 11000;
 int tempo_Secagem = 11000;
 int tempo_LV = 16000;
 int tempo_Corrosao = 11000;
+int MotorPin = 10;
 
 char key;
-
-#define MotorPin 3
 
 void modoautomatico();
 void displaylcd();
@@ -45,7 +44,7 @@ void secagem();
 void luzvioleta();
 void corrosao();
 
-LiquidCrystal lcd(12, 8, 7, 9, 10, 11);
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup()
 {
@@ -296,11 +295,11 @@ void modomanual()
       centrifuga();
       time = 0;
       lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 1);
-      lcd.print("outro processo,");
+      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 2);
+      lcd.print("outro processo,");
+      lcd.setCursor(0, 3);
       lcd.print("aperte o botao *");
       time = millis();
       do {
@@ -323,11 +322,11 @@ void modomanual()
       secagem();
       time = 0;
       lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 1);
-      lcd.print("outro processo,");
+      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 2);
+      lcd.print("outro processo,");
+      lcd.setCursor(0, 3);
       lcd.print("aperte o botao *");
       time = millis();
       do {
@@ -351,11 +350,11 @@ void modomanual()
       luzvioleta();
       time = 0;
       lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 1);
-      lcd.print("outro processo,");
+      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 2);
+      lcd.print("outro processo,");
+      lcd.setCursor(0, 3);
       lcd.print("aperte o botao *");
       time = millis();
       do {
@@ -379,11 +378,11 @@ void modomanual()
       corrosao();
       time = 0;
       lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 1);
-      lcd.print("outro processo,");
+      lcd.print("Se deseja ativar");
       lcd.setCursor(0, 2);
+      lcd.print("outro processo,");
+      lcd.setCursor(0, 3);
       lcd.print("aperte o botao *");
       time = millis();
       do {
