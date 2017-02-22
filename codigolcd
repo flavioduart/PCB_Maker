@@ -2,18 +2,18 @@
 #include <LiquidCrystal.h>
 
 const byte ROWS = 4; // Four rows
-const byte COLS = 3; // Three columns
+const byte COLS = 4; // Three columns
 
 char keys[ROWS][COLS] = {
-  {'1','2','3'},
-  {'4','5','6'},
-  {'7','8','9'},
-  {'*','0','#'}
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
 };
 // Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
-byte rowPins[ROWS] = {A0, A1, A2, A3};
+byte rowPins[ROWS] = {6, 7, 8, 9};
 // Connect keypad COL0, COL1 and COL2 to these Arduino pins.
-byte colPins[COLS] = {6, 7, 8, /*9*/}; 
+byte colPins[COLS] = {A3, A2, A1, A0}; 
 
 // Create the Keypad
 Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
@@ -51,8 +51,19 @@ void setup()
   pinMode(MotorPin, OUTPUT);
   pinMode(releuv, OUTPUT);
   pinMode(releSecador, OUTPUT);
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+
   lcd.begin(20, 4);
-  Serial.begin(9600);
+  digitalWrite(releSecador, HIGH);
+  digitalWrite(releuv, HIGH);
+  digitalWrite(MotorPin, LOW);
 }
   
 void loop()
@@ -62,57 +73,39 @@ void loop()
 
 void displaylcd()
 {
-  unsigned long time;
+  unsigned long tempo;
   lcd.clear();
-  lcd.cursor();
-  lcd.blink();
-  lcd.setCursor(0, 0);
-  lcd.print("->Modo Automatico");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key=='*') {
+  lcd.setCursor(0,0);
+  lcd.print("Ola! Seja bem vindo");
+  lcd.setCursor(0,1);
+  lcd.print("a produtora PCBMaker");
+  lcd.setCursor(0,2);
+  lcd.print("2000, by Carranca22");
+  delay(5500);
+  lcd.clear();
+  lcd.setCursor(0,1);
+  lcd.print("Por favor, digite o numero:");
+  delay(1500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("1 - Modo Automatico");
+  lcd.setCursor(0,1);
+  lcd.print("2 - Modo Manual");
+  lcd.setCursor(0,2);
+  lcd.print("3 - Configuracoes");
+  lcd.setCursor(0,3);
+  lcd.print("4 - Ajuda");
+  do{
+  key = kpd.getKey();
+  if (key=='1') 
       modoautomatico();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Modo Manual");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key=='*') {
+  else if (key=='2')
       modomanual();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Configuracoes");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key=='*') {
+  else if (key=='3') 
       configuracoes();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Ajuda");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key=='*') {
+  else if (key=='4') 
       ajuda();
-    }
-  } while (millis() - time < 3001);
+  }while(key != '#');
 }
 
 void modoautomatico()
@@ -120,18 +113,18 @@ void modoautomatico()
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Incializando...");
-  delay(8000);
+  delay(4000);
   lcd.clear();
   lcd.cursor();
   lcd.setCursor(0, 0);
-  lcd.print("->Lave a placa");
+  lcd.print("Lave a placa com");
   lcd.setCursor(0, 1);
-  lcd.print("->com bombril");
+  lcd.print("bombril");
   delay(5000);
   lcd.clear();
   lcd.cursor();
   lcd.setCursor(0, 0);
-  lcd.print("-> Apos o termino");
+  lcd.print("Apos o termino");
   lcd.setCursor(0, 1);
   lcd.print("Pressione o botao *");
   do {
@@ -272,9 +265,8 @@ void modoautomatico()
   displaylcd();
 }
 
-void modomanual()
-{
-  unsigned long time;
+void modomanual(){
+  unsigned long tempo;
   lcd.clear();
   lcd.cursor();
   lcd.blink();
@@ -282,124 +274,38 @@ void modomanual()
   lcd.print("Qual processo");
   lcd.setCursor(0, 1);
   lcd.print("deseja ativar?");
+  lcd.setCursor(0, 2);
+  lcd.print("Aperte D para sair");
   delay(3000);
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Centrifuga?");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key=='*') {
+  lcd.setCursor(0,0);
+  lcd.print("1 - Centrifuga");
+  lcd.setCursor(0,1);
+  lcd.print("2 - Secagem");
+  lcd.setCursor(0,2);
+  lcd.print("3 - Luz UV");
+  lcd.setCursor(0,3);
+  lcd.print("4 - Corrosao");
+  do{
+  key = kpd.getKey();
+  if (key=='1') 
       centrifuga();
-      time = 0;
-      lcd.clear();
-      lcd.setCursor(0, 1);
-      lcd.print("Se deseja ativar");
-      lcd.setCursor(0, 2);
-      lcd.print("outro processo,");
-      lcd.setCursor(0, 3);
-      lcd.print("aperte o botao *");
-      time = millis();
-      do {
-        key = kpd.getKey();
-        if (key && key == '*')
-          modomanual();
-      } while (millis() - time < 3001);
-      displaylcd();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Secagem?");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  do {
-    key = kpd.getKey();
-    if (key && key == '*')
-    {
+  else if (key=='2')
       secagem();
-      time = 0;
-      lcd.clear();
-      lcd.setCursor(0, 1);
-      lcd.print("Se deseja ativar");
-      lcd.setCursor(0, 2);
-      lcd.print("outro processo,");
-      lcd.setCursor(0, 3);
-      lcd.print("aperte o botao *");
-      time = millis();
-      do {
-        key = kpd.getKey();
-        if (key && key == '*')
-          modomanual();
-      } while (millis() - time < 3001);
-      displaylcd();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Luz Ultravioleta?");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key == '*')
-    {
+  else if (key=='3') 
       luzvioleta();
-      time = 0;
-      lcd.clear();
-      lcd.setCursor(0, 1);
-      lcd.print("Se deseja ativar");
-      lcd.setCursor(0, 2);
-      lcd.print("outro processo,");
-      lcd.setCursor(0, 3);
-      lcd.print("aperte o botao *");
-      time = millis();
-      do {
-        key = kpd.getKey();
-        if (key && key == '*')
-          modomanual();
-      } while (millis() - time < 3001);
-      displaylcd();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("->Corrosao?");
-  lcd.setCursor(0, 1);
-  lcd.print("Aperte o botao *");
-  time = millis();
-  do {
-    key = kpd.getKey();
-    if (key && key == '*')
-    {
+  else if (key=='4') 
       corrosao();
-      time = 0;
-      lcd.clear();
-      lcd.setCursor(0, 1);
-      lcd.print("Se deseja ativar");
-      lcd.setCursor(0, 2);
-      lcd.print("outro processo,");
-      lcd.setCursor(0, 3);
-      lcd.print("aperte o botao *");
-      time = millis();
-      do {
-        key = kpd.getKey();
-        if (key && key == '*')
-          modomanual();
-      } while (millis() - time < 3001);
+  else if(key == 'D')
       displaylcd();
-    }
-  } while (millis() - time < 3001);
-  lcd.clear();
+  }while(key != '#');
 }
+
 
 void configuracoes()
 {
   String str;
-  unsigned long time;
+  unsigned long tempo;
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Mudar tempo de uma");
@@ -421,7 +327,7 @@ void configuracoes()
   lcd.print("3 - Luz Violeta");
   lcd.setCursor(0,3);
   lcd.print("4 - Corrosao");
-  time = millis();
+  tempo = millis();
   do{
     key = kpd.getKey();
     if(key){
@@ -483,7 +389,7 @@ void configuracoes()
         break;
       }
     }
-  }while((millis() - time) < 60000);
+  }while((millis() - tempo) < 60000);
   lcd.clear();
   displaylcd();
 }
@@ -548,7 +454,7 @@ void secagem()
   lcd.clear();
   lcd.setCursor(10, 1);
   tempo = millis();
-  digitalWrite(releSecador, HIGH);
+  digitalWrite(releSecador, LOW);
   tempo = millis();
   for (contador; millis() - tempo < tempo_Secagem && contador < timeSecagem; contador++)
   {
@@ -558,7 +464,7 @@ void secagem()
     lcd.clear();
     tempo = millis();
   }
-  digitalWrite(releSecador, LOW);
+  digitalWrite(releSecador, HIGH);
   lcd.setCursor(0,0);
   lcd.print("Aperte * para desligar");
   do {
@@ -581,7 +487,7 @@ void luzvioleta()
   lcd.clear();
   lcd.setCursor(10, 1);
   tempo = millis();
-  digitalWrite(releuv, HIGH);
+  digitalWrite(releuv, LOW);
   for (contador; millis() - tempo < tempo_LV && contador < timeLV; contador++)
   {
     lcd.print("Luz UV...");
@@ -590,7 +496,7 @@ void luzvioleta()
     lcd.clear();
     tempo = millis();
   }
-  digitalWrite(releuv, LOW);
+  digitalWrite(releuv, HIGH);
   lcd.setCursor(0,0);
   lcd.print("Aperte * para desligar");
   do {
@@ -620,8 +526,8 @@ void corrosao()
   lcd.print("Corroendo");
   lcd.setCursor(10, 1);
   tempo = millis();
-  digitalWrite(releSecador, HIGH);
-  for (contador; tempo < tempo_Corrosao && contador < timeCorrosao; contador++)
+  digitalWrite(releSecador, LOW);
+  for (contador; millis() - tempo < tempo_Corrosao && contador < timeCorrosao; contador++)
   {
     lcd.print("Corroendo...");
     lcd.print(contador);
@@ -629,7 +535,7 @@ void corrosao()
     lcd.clear();
     tempo = millis();
   }
-  digitalWrite(releSecador, LOW);
+  digitalWrite(releSecador, HIGH);
   lcd.setCursor(0,0);
   lcd.print("Aperte * para desligar");
   do {
