@@ -1,4 +1,5 @@
 #include <EEPROM.h>
+#include <LiquidCrystal.h>
 #define LIMITE         4          // Define o limite de erro do sinal do potenciometro
 #define DEBUG          1          // Ativar(1) ou desativar(0) a comunicação com o serial.
 #define ZERAR          1          // (1) zero o EEPROM (0) mantem o EEPROM com leituras anteriores
@@ -34,10 +35,12 @@ int           deveAlertar            = 1;    // Variável atua como um binário 
 unsigned int  expoente               = 1;
 bool          ligarcooler            = false;
 int botoes[4];
-
+bool estadoBotao;
+bool estadoBotao2;
 void(* reset) (void)= 0;
+bool verificador;
 
-
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 //Função que define os componentes sinalizador,sirene e sensores como entrada ou saída
 
@@ -58,7 +61,7 @@ void setup()
   
   for(int i = 0; i < NUM_SENSORES; i++)
     flag_calibracao[i] = false;
-  lcd.begin(20, 4);
+  lcd.begin(20,4);
   for(int i = 0; i < 4; i++)
     pinMode(botoes[i], INPUT);
 }
@@ -112,34 +115,151 @@ void loop()
 
 void menu()
 {
-  unsigned long time;
+  unsigned long tempo;
   
   lcd.clear();
   lcd.cursor();
   lcd.blink();
   lcd.setCursor(0, 0);
-  lcd.printl("S.H.I.U.");
-  delay(2000);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Aperte o botao 1");
-  lcd.setCursor(0, 1);
-  lcd.print("Para confirmar");
+  lcd.print("S.H.I.U.");
   delay(3000);
   lcd.clear();
-  lcd.print("Deseja alterar o");
+  lcd.setCursor(0, 0);
+  lcd.print("Deseja alterar limia");
   lcd.setCursor(0, 1);
-  lcd.print("limiar?");
+  lcd.print("r ou sensibilidade?");
+  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("1- Limiar");
+  lcd.setCursor(0, 1);
+  lcd.print("2- Sensibilidade");
+  lcd.clear();
+  tempo=millis();
+  do{
+  estadoBotao == digitalRead(botoes[0]);
+  estadoBotao2 == digitalRead(botoes[1]);
+  if (estadoBotao == HIGH){
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Todos os limiares?");
+      lcd.setCursor(0,1);
+      lcd.print("1 - SIM");
+      lcd.setCursor("0, 1);
+      lcd.print("2- NAO");
+      tempo= millis();
   do {
-    digitalRead(botoes[0]);
-    if (botoes[0] == HIGH)
-      
-      
+     estadoBotao == digitalRead(botoes[0]);
+     estadoBotao2 == digitalRead(botoes[1]);
+     if (estadoBotao == HIGH){
+      estadoBotao = LOW;
+      verificador = true;
+      alterarlimiares(verificador);
+     }
+     if (estadoBotao2 = HIGH){
+      estadoBotao = LOW;
+      verificador = false;
+      alterarlimiares(verificador);
+     }
+    } while (millis() - tempo < 3001);
+  lcd.clear();
+  lcd.setCursor(0,0);
   }
-  while (millis() - time < 3001);
-  
+  if (estadoBotao2 == HIGH) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Sensibilidade");
+    ajusteSensibilidade();
+  }
+  }while (millis() - tempo < 3001);
+  lcd.clear();
 }
+void alterarlimiares(bool quantidade)
+{
+  int botaoParar=LOW;
+  int escolherBotao;
+  unsigned int alteradorDePotenciometro=0;
+  unsigned long tempo;
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Alterar limiar");
+  lcd.setCursor(0,1);
+  lcd.print("Com potenciometro");
+  delay (2500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Para parar aperte");
+  lcd.setCursor(0,1);
+  lcd.print("O botao 2");
+  delay(2500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Valor atual");
+  lcd.setCursor(0,1);
+  
+  while(botaoParar != HIGH){
+  if (quantidade)
+  {
+    for(int i = 0; i < NUM_SENSORES;i++)
+    limite_POT[i]+= alteradorDePotenciometro;
+    lcd.print(limite_POT[0]);
+  }
+  else {
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Selecione o limiar");
+    lcd.setCursor(0,1);
+    lcd.print("Que deseja mudar");
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Aperte o botao 3");
+    lcd.setCursor(0,1);
+    lcd.print("para confirmar");
+    lcd.clear();
+    delay(2000);
+    lcd.setCursor(0,0);
+    lcd.print("Limiar 1");
+    tempo = millis();
+    do {
+      escolherBotao = digitalRead(botoes[2]);
+     if (escolherBotao == HIGH)
+      limite_POT[0]+= alteradorDePotenciometro;
 
+    } while (millis() - tempo < 3001);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Limiar 2");
+    tempo = millis();
+    do {
+      escolherBotao = digitalRead(botoes[2]);
+     if (escolherBotao == HIGH)
+      limite_POT[1]+= alteradorDePotenciometro;
+     
+    } while (millis() - tempo < 3001);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Limiar 3");
+    tempo = millis();
+    do {
+      escolherBotao = digitalRead(botoes[2]);
+     if (escolherBotao == HIGH)
+      limite_POT[2]+= alteradorDePotenciometro;
+     
+    } while (millis() - tempo < 3001);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Limiar 4");
+    tempo = millis();
+    do {
+      escolherBotao = digitalRead(botoes[2]);
+     if (escolherBotao == HIGH)
+      limite_POT[3]+= alteradorDePotenciometro;
+    } while (millis() - tempo < 3001);    
+  }
+  botaoParar = digitalRead(botoes[1]);
+  }
+  menu();
+}
 
 int ouvirNivel() 
 {
