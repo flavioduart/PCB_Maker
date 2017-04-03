@@ -1,8 +1,6 @@
 #include <Keypad.h>
 #include <LiquidCrystal.h>
 
-// testando commit
-
 const byte ROWS = 4; // Four rows
 const byte COLS = 4; // Three columns
 
