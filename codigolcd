@@ -14,17 +14,18 @@ char keys[ROWS][COLS] = {
   {'*','0','#','D'}
 };
 // Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
-byte rowPins[ROWS] = {6, 7, 8, 9};
+byte rowPins[ROWS] = {4, 3, 2, 5};
 // Connect keypad COL0, COL1 and COL2 to these Arduino pins.
-byte colPins[COLS] = {A3, A2, A1, A0}; 
+byte colPins[COLS] = {A0, A1, A2, A3}; 
 
 // Create the Keypad
 Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 int contador = 0;     
 int buzzer = 13;            //porta do buzzer
-int releuv = 0;             
-int releSecador = 1; 
+int releuv = 12;             
+int releSecador = 0; 
+int releMotor = 1;           //Porta do motor
 int timeCent = 30;          //tempo em segundos
 int timeSecagem = 15;
 int timeLV = 3;
@@ -33,8 +34,6 @@ int tempo_Centrifuga = 30;         //30 segundos - 30000
 int tempo_Secagem = 15;          //15 minutos quente - 900000
 int tempo_LV = 18;             //3 minutos - 180000
 int tempo_Corrosao = 90;     //15 a 20 minutos - 900000
-int MotorPin = 10;            //Porta do motor
-
 
 char key;         //Variável responsável por armazenar a resposta da matriz
 /*
@@ -48,11 +47,11 @@ void secagem(timeSecagem);
 void luzvioleta();
 void corrosao(); */
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(6, 7, 8, 9, 10, 11);
 
 void setup()
 {
-  pinMode(MotorPin, OUTPUT);
+  pinMode(releMotor, OUTPUT);
   pinMode(releuv, OUTPUT);
   pinMode(releSecador, OUTPUT);
   pinMode(A0, INPUT);
@@ -67,7 +66,7 @@ void setup()
   lcd.begin(20, 4);
   digitalWrite(releSecador, HIGH);
   digitalWrite(releuv, HIGH);
-  digitalWrite(MotorPin, LOW);
+  digitalWrite(releMotor, LOW);
   
   timeCent = EEPROM.read(1);
   timeSecagem = EEPROM.read(3);
@@ -543,13 +542,13 @@ void centrifuga()         //Função responsável pela etapa de centrifuga da pc
     key = kpd.getKey();
   } while (key != '*');
   lcd.clear();
-  digitalWrite(MotorPin, HIGH);               //Ligando o motor
+  digitalWrite(releMotor, HIGH);               //Ligando o motor
   tempo = millis();
   tempo_Centrifuga = EEPROM.read(0);            //Recebendo as variáveis de tempo do EEPROM
   timeCent = EEPROM.read(1);
   for (contador; (millis() - tempo < tempo_Centrifuga) && (contador < timeCent); contador++){
     if((key =kpd.getKey()) == '#'){               //Checagem do botão de emergência
-    digitalWrite(MotorPin, LOW);
+    digitalWrite(releMotor, LOW);
     displaylcd();
     }
     lcd.setCursor(0, 0);            //Execução do processo durante o tempo estipulado
@@ -563,7 +562,7 @@ void centrifuga()         //Função responsável pela etapa de centrifuga da pc
     lcd.clear();
     tempo = millis();
   }
-  digitalWrite(MotorPin, LOW);            //Desligando o motor da centrifuga
+  digitalWrite(releMotor, LOW);            //Desligando o motor da centrifuga
   do {
     tone(buzzer, 261);
     key = kpd.getKey();
